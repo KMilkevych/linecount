@@ -1,0 +1,13 @@
+name: linecount
+version: 0.1.0
+
+authors:
+  - Kostiantyn Milkevych <mkv2510kostya@gmail.com>
+
+targets:
+  linecount:
+    main: src/linecount.cr
+
+crystal: '>= 1.11.2'
+
+license: MIT
