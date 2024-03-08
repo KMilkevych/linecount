@@ -2,7 +2,7 @@ require "option_parser"
 require "./*"
 
 include Filemod
-include Planguage
+include LanguageSpec
 
 # Counts lines in files
 module Linecount
