@@ -2,6 +2,7 @@ require "option_parser"
 require "./*"
 
 include Filemod
+include Planguage
 
 # Counts lines in files
 module Linecount
@@ -68,8 +69,7 @@ module Linecount
  # Check if any files or directories have been specified
  # if only directories, we map those normally
  if dirs.empty? && files.empty?
-   STDERR.puts "ERROR: Please specify files."
-   exit(1)
+   dirs << Path[Dir.current]
  end
 
  p! files, dirs
@@ -85,6 +85,26 @@ module Linecount
  p! files
 
  # Now, we actually perform the linecount
- lc = files.reduce(0) { |a, f| a + (file_linecount(f) || 0) }
+ # while keeping track of file extensions
+ # lc = files.reduce(0) { |a, f| a + (file_linecount(f) || 0) }
+ lc = files.reduce({} of Language => Int32) do |a, f|
+
+   # Get extension of file
+   ext = lang_of_extension[file_getextension(f)]?
+
+   # Append extension as well as linecount
+   lines = file_linecount(f)
+
+   # p! ext, lines, a
+
+   # Append the lines of this file
+   if ext && lines
+     a[ext] = (a[ext]? || 0) + lines
+   end
+
+   a
+
+ end
+
  puts lc
 end

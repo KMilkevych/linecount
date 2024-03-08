@@ -1,6 +1,16 @@
 # Module for interacting with files and directories
 module Filemod
 
+  # Extracts the file extension
+  def file_getextension(filepath : Path) : (String | Nil)
+    ext = filepath.extension
+    if ext.blank?
+      nil
+    else
+      ext
+    end
+  end
+
   # Reads file and returns number of lines
   def file_linecount(filepath : Path) : (Int32 | Nil)
     if File.exists?(filepath)
@@ -27,7 +37,7 @@ module Filemod
     end
 
     # Read all elements in here
-    el = Dir.new(d).entries.map { |e| Path[e] }
+    el = Dir.new(d).children.map { |e| Path[e] }
     files = el.select { |f| File.file?(f) }
     dirs = el.select { |d| File.directory?(d) }
 
