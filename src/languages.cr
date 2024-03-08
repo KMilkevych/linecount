@@ -7,6 +7,7 @@ module Planguage
     C
     Cpp
     Yaml
+    Python
   end
 
   def lang_of_extension
@@ -16,6 +17,7 @@ module Planguage
       ".c" => Language::C,
       ".cpp" => Language::Cpp,
       ".yml" => Language::Yaml,
+      ".py" => Language::Python,
     }
   end
 end

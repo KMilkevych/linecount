@@ -72,17 +72,12 @@ module Linecount
    dirs << Path[Dir.current]
  end
 
- p! files, dirs
-
  # Cover all directories and add the files
  if recursive
    files = files + (dirs.flat_map { |d| (read_dir_rec d) || [] of Path })
- elsif
+ else
    files = files + (dirs.flat_map { |d| (read_dir d) || [] of Path })
  end
-
- STDERR.puts "After recursive walk"
- p! files
 
  # Now, we actually perform the linecount
  # while keeping track of file extensions
