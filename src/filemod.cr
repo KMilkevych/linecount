@@ -1,6 +1,8 @@
 # Module for interacting with files and directories
 module Filemod
 
+  extend self
+
   # Extracts the file extension
   def file_getextension(filepath : Path) : (String | Nil)
     ext = filepath.extension
