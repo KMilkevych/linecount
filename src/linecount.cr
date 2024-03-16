@@ -2,6 +2,8 @@ require "option_parser"
 require "./filemod.cr"
 require "./languagespec.cr"
 
+require "colorize"
+
 #include Filemod
 #include LanguageSpec
 
@@ -103,5 +105,10 @@ module Linecount
 
  end
 
- puts lc
+ # Print all languages
+ printf "%-20s%-16s%-6s\n", "Language", "Type", "Lines"
+ printf "------------------------------------------\n"
+ lc.each do |lang, lines|
+   printf "%-20s%-16s%-6d\n", lang, LanguageSpec.lang_to_type[lang], lines
+ end
 end
