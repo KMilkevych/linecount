@@ -4,9 +4,6 @@ require "./languagespec.cr"
 
 require "colorize"
 
-#include Filemod
-#include LanguageSpec
-
 # Counts lines in files
 module Linecount
   VERSION = "0.1.0"
@@ -22,7 +19,10 @@ module Linecount
   OptionParser.parse do |parser|
 
     # Banner which displays basic information
-    parser.banner = "Usage: linecount [arguments]"
+    parser.banner =
+      "Usage: linecount [flags] [filename(s)]\n" \
+      "If no filenames are provided, the current directory '.' is used.\n"
+
 
     # Version command
     parser.on "-v", "--version", "VERSION" do
@@ -36,15 +36,17 @@ module Linecount
       exit
     end
 
-    # Command for specifying which files or directories to scan
-    parser.on "-f NAME", "--file=NAME", "Count lines in file" do |f|
-      f.split(',').map { |f| Path[Dir.current, f] }.each do |p|
-        if File.directory?(p)
-          dirs << p
-        elsif File.file?(p)
-          files << p
-        else
-          STDERR.puts "ERROR: Invalid file #{p}."
+    # Parse all files provided using unknown_args
+    parser.unknown_args do |filenames|
+      filenames.each do |f|
+        f.split(',').map { |f| Path[f].expand }.each do |p|
+          if File.directory?(p)
+            dirs << p
+          elsif File.file?(p)
+            files << p
+          else
+            STDERR.puts "ERROR: Invalid file #{p}."
+          end
         end
       end
     end
@@ -67,8 +69,6 @@ module Linecount
       exit(1)
     end
 
-    # Before each to parse list of files
-    # parser.before_each
 
   end
 
@@ -87,7 +87,6 @@ module Linecount
 
  # Now, we actually perform the linecount
  # while keeping track of file extensions
- # lc = files.reduce(0) { |a, f| a + (file_linecount(f) || 0) }
  lc = files.reduce({} of String => Int32) do |a, f|
 
    # Get extension of file
