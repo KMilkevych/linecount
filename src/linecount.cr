@@ -2,8 +2,6 @@ require "option_parser"
 require "./filemod.cr"
 require "./languagespec.cr"
 
-require "colorize"
-
 # Counts lines in files
 module Linecount
   VERSION = "0.1.0"
@@ -13,7 +11,8 @@ module Linecount
   files = [] of Path
   dirs = [] of Path
 
-  recursive = false
+  # Maximum recursion depth
+  recursion_depth = -1 # DEFAULT: recurse to bottom
 
   # Start optionparser
   OptionParser.parse do |parser|
@@ -21,8 +20,7 @@ module Linecount
     # Banner which displays basic information
     parser.banner =
       "Usage: linecount [flags] [filename(s)]\n" \
-      "If no filenames are provided, the current directory '.' is used.\n"
-
+      "If no filenames are provided, the current directory '.' is used."
 
     # Version command
     parser.on "-v", "--version", "VERSION" do
@@ -34,6 +32,11 @@ module Linecount
     parser.on "-h", "--help", "Show this screen" do
       puts parser
       exit
+    end
+
+    # Flag used to describe the depth of the circuit
+    parser.on "-d", "--depth=DEPTH", "Specify recursion depth. Default or (-1) means recurse to bottom" do |depth|
+      recursion_depth = depth.to_i {-1}
     end
 
     # Parse all files provided using unknown_args
@@ -49,11 +52,6 @@ module Linecount
           end
         end
       end
-    end
-
-    # Flag used to mark recursive scan
-    parser.on "-r", "--recursive", "Iterate over directories recursively" do
-      recursive = true
     end
 
     # Invalid or missing option
@@ -79,8 +77,8 @@ module Linecount
  end
 
  # Cover all directories and add the files
- if recursive
-   files = files + (dirs.flat_map { |d| (Filemod.read_dir_rec d) || [] of Path })
+ if recursion_depth != 0
+   files = files + (dirs.flat_map { |d| (Filemod.read_dir_rec_with_depth d, recursion_depth) || [] of Path })
  else
    files = files + (dirs.flat_map { |d| (Filemod.read_dir d) || [] of Path })
  end

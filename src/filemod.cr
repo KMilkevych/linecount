@@ -49,4 +49,22 @@ module Filemod
     # Now call recursively for everything
     files + dirs.reduce([] of Path) { |acc, d| acc + (read_dir_rec(d) || [] of Path) }
   end
+
+  # Reads directory recursively up to a maximum recursion depth.
+  def read_dir_rec_with_depth(d : Path, depth : Int) : (Array(Path) | Nil)
+    unless File.directory?(d) && !File.symlink?(d) && depth != 0
+      return nil
+    end
+
+    # Read all elements in here
+    dir = Dir.new(d)
+    el = dir.children.map { |e| Path[d, e] }
+    dir.close
+
+    files = el.select { |f| File.file?(f) }
+    dirs = el.select { |d| File.directory?(d) }
+
+    # Now call recursively for everything
+    files + dirs.reduce([] of Path) { |acc, d| acc + (read_dir_rec_with_depth(d, depth - 1) || [] of Path) }
+  end
 end
