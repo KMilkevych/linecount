@@ -4,9 +4,13 @@ A tool to summarize the type and amount of code written inside directories and f
 
 ## Installation
 
-Build and run using:
+Build `linecount` using:
 ``` sh
 crystal build src/linecount.cr
+```
+then run using:
+``` sh
+./linecount [flags] [files/directories]
 ```
 
 ## Usage
