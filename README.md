@@ -1,22 +1,32 @@
 # linecount
 
-TODO: Write a description here
+A simple tool to summarize the type and amount of code written inside directories and files.
 
 ## Installation
 
-TODO: Write installation instructions here
+Build and run using:
+``` sh
+crystal build src/linecount.cr
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+The tool can be executed as is, e.g. by running `./linecount` which will summarize the current directory with recursive descent.
 
-## Development
+Files can be specified by passing their names as arguments to the call:
+``` sh
+./linecount testfile.txt testdir1 testdir2
+```
 
-TODO: Write development instructions here
+To specify a maximum recursion depth use the `-d` or `--depth` flag:
+``` sh
+./linecount --depth 2 testdir
+```
+Using `--depth 0` disables recursion and only examines the files in top-level.
 
 ## Contributing
 
-1. Fork it (<https://github.com/your-github-user/linecount/fork>)
+1. Fork it (<https://github.com/KMilkevych/linecount/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -24,4 +34,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [Kostiantyn Milkevych](https://github.com/your-github-user) - creator and maintainer
+- [Kostiantyn Milkevych](https://github.com/KMilkevych) - creator and maintainer

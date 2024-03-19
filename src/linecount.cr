@@ -6,8 +6,7 @@ require "./languagespec.cr"
 module Linecount
   VERSION = "0.1.0"
 
-
-  # Some toplevel variables
+  # Lists of files and dirs to explore
   files = [] of Path
   dirs = [] of Path
 
