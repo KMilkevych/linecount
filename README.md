@@ -1,6 +1,6 @@
 # linecount
 
-A simple tool to summarize the type and amount of code written inside directories and files.
+A tool to summarize the type and amount of code written inside directories and files.
 
 ## Installation
 
@@ -35,3 +35,4 @@ Using `--depth 0` disables recursion and only examines the files in top-level.
 ## Contributors
 
 - [Kostiantyn Milkevych](https://github.com/KMilkevych) - creator and maintainer
+- [Peter Pisarczyk] (https://github.com/ppisarczyk) - gist containing information on file formats and programming languages
