@@ -14,12 +14,11 @@ module Linecount
   recursion_depth = -1 # DEFAULT: recurse to bottom
 
   # Start optionparser
-  OptionParser.parse do |parser|
+  parser = OptionParser.new do |parser|
 
     # Banner which displays basic information
     parser.banner =
-      "Usage: linecount [flags] [filename(s)]\n" \
-      "If no filenames are provided, the current directory '.' is used."
+      "Usage: linecount [flags] [filename(s)]"
 
     # Version command
     parser.on "-v", "--version", "VERSION" do
@@ -69,10 +68,12 @@ module Linecount
 
   end
 
+ parser.parse
+
  # Check if any files or directories have been specified
- # if only directories, we map those normally
  if dirs.empty? && files.empty?
-   dirs << Path[Dir.current]
+   STDERR.puts parser
+   exit(1)
  end
 
  # Cover all directories and add the files
