@@ -779,7 +779,7 @@ def ext_to_lang
     ".slim" => "Slim",
     ".smali" => "Smali",
     ".st" => "Smalltalk",
-    ".cs" => "Smalltalk",
+    ".cs" => "C#",
     ".tpl" => "Smarty",
     ".sp" => "SourcePawn",
     ".inc" => "SourcePawn",
