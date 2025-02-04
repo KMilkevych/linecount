@@ -1011,6 +1011,7 @@ def ext_to_lang
     ".prg" => "xBase",
     ".ch" => "xBase",
     ".prw" => "xBase",
+		".zig" => "Zig",
   }
 end
 
@@ -1410,6 +1411,7 @@ def lang_to_type
     "reStructuredText" => "prose",
     "wisp" => "programming",
     "xBase" => "programming",
+		"Zig" => "programming",
   }
 end
 
